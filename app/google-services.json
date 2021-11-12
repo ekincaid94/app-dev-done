@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "826334466230",
+    "project_id": "simplelogin-39933",
+    "storage_bucket": "simplelogin-39933.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:826334466230:android:6614ab84477bc75abf9617",
+        "android_client_info": {
+          "package_name": "ie.wit.assignment1"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "826334466230-vmtjorj25nvd6puamagglq0114d65kj0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC3N5rrnTbZOLbSXfDGhY8Fw1AkAJWU7qE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "826334466230-vmtjorj25nvd6puamagglq0114d65kj0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:826334466230:android:332168c239da5f8abf9617",
+        "android_client_info": {
+          "package_name": "ie.wit.assignment1.simplelogin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "826334466230-vmtjorj25nvd6puamagglq0114d65kj0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC3N5rrnTbZOLbSXfDGhY8Fw1AkAJWU7qE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "826334466230-vmtjorj25nvd6puamagglq0114d65kj0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

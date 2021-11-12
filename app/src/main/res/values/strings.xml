@@ -1,0 +1,34 @@
+<resources>
+    <string name="app_name">Assignment1</string>
+    <string name="button_addHike">Add a Hike</string>
+    <string name="hint_hikeTitle">Hike Title</string>
+    <string name="hint_hikeDescription">Description </string>
+    <string name="menu_addHike">Add</string>
+    <string name="menu_cancelHike">Cancel</string>
+    <string name="enter_hike_title"> Please enter a Hike Title </string>
+    <string name="save_hike"> Save Hike </string>
+    <string name="button_addImage"> Add Image </string>
+    <string name="select_hike_image">Select an image for this Hike</string>
+    <string name="change_hike_image">Change hike image</string>
+    <string name="button_location">Set Location</string>
+    <string name="title_activity_map">MapActivity</string>
+    <string name="menu_deleteHike">Delete</string>
+    <string name="title_activity_hike_maps">Map of All Hikes </string>
+    <string name="hike_image_placeholder">Hike Image</string>
+    <string name="hike_title_placeholder">Hike Title</string>
+    <string name="hike_description_placeholder">Hike Description</string>
+    <string name="email">Email Address</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="register">Register</string>
+    <string name="confirm_password">Confirm your password</string>
+    <string name="sign_in">Sign In</string>
+    <string name="no_account_found">No account found</string>
+    <string name="click_here">Click Here</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="account_already_exists">This Email has been registered previously?</string>
+</resources>
+
+
+
+
