@@ -9,6 +9,7 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import ie.wit.assignment1.databinding.ActivityLoginBinding
 import ie.wit.assignment1.main.MainApp
+import ie.wit.assignment1.views.hikelist.HikeListView
 
 
 class LoginActivity : AppCompatActivity() {
@@ -41,7 +42,7 @@ class LoginActivity : AppCompatActivity() {
             mAuth.signInWithEmailAndPassword(binding.etEmail.text.toString(), binding.etPassword.text.toString())
                 .addOnCompleteListener(this) {task ->
                     if (task.isSuccessful) {
-                        val intent = Intent(this@LoginActivity, HikeListActivity::class.java)
+                        val intent = Intent(this@LoginActivity, HikeListView::class.java)
                         startActivity(intent)
                         finish()
                     }
