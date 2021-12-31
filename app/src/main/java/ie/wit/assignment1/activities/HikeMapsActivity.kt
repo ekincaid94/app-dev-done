@@ -10,6 +10,7 @@ import com.google.android.gms.maps.model.MarkerOptions
 import ie.wit.assignment1.databinding.ActivityHikeMapsBinding
 import ie.wit.assignment1.databinding.ContentHikeMapsBinding
 import ie.wit.assignment1.main.MainApp
+import ie.wit.assignment1.R
 
 
  class HikeMapsActivity : AppCompatActivity(), GoogleMap.OnMarkerClickListener {
@@ -22,7 +23,8 @@ import ie.wit.assignment1.main.MainApp
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        app = application as MainApp
+        //setContentView(R.layout.activity_hike_maps)
+       app = application as MainApp
         binding = ActivityHikeMapsBinding.inflate(layoutInflater)
         setContentView(binding.root)
         //binding.toolbar.title = title
@@ -34,6 +36,8 @@ import ie.wit.assignment1.main.MainApp
             configureMap()
         }
     }
+
+
 
     fun configureMap() {
         map.setOnMarkerClickListener(this)

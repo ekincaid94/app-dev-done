@@ -23,7 +23,7 @@ import timber.log.Timber.i
 import android.widget.Toast
 
 
-class HikeActivity : AppCompatActivity() {
+class HikeActivity : AppCompatActivity(), AnkoLogger {
     private lateinit var binding: ActivityHikeBinding
 
     //var location = Location(52.245696, -7.139102, 15f)
@@ -111,8 +111,8 @@ class HikeActivity : AppCompatActivity() {
         return super.onCreateOptionsMenu(menu)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when (item?.itemId) {
             R.id.item_delete -> {
                 app.hikes.delete(hike)
                 finish()

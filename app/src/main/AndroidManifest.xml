@@ -36,6 +36,13 @@ package="ie.wit.assignment1">
         android:name=".activities.MapActivity"
         android:exported="true"
         android:label="@string/title_activity_map" />
+
+    <activity
+        android:name=".activities.HikeMapsActivity"
+        android:label="@string/title_activity_hike_maps"</activity>
+        //android:theme="@style/AppTheme">
+
+
     <activity
         android:name=".activities.HikeListActivity"
         android:exported="true">
@@ -45,8 +52,11 @@ package="ie.wit.assignment1">
             <category android:name="android.intent.category.LAUNCHER" />
         </intent-filter>
     </activity>
-    <activity android:name=".activities.HikeMapsActivity" />
+
     <activity android:name=".activities.HikeActivity" />
 </application>
 
 </manifest>
+
+
+

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Assignment1</string>
+    <string name="app_name">the HikeLife</string>
     <string name="button_addHike">Add a Hike</string>
     <string name="hint_hikeTitle">Hike Title</string>
     <string name="hint_hikeDescription">Description </string>

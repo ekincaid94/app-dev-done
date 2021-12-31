@@ -8,6 +8,7 @@ app:layout_behavior="@string/appbar_scrolling_view_behavior"
 tools:context=".activities.HikeMapsActivity"
 tools:showIn="@layout/activity_hike_maps">
 
+
 <com.google.android.gms.maps.MapView
     android:id="@+id/mapView"
     android:layout_width="361dp"
