@@ -33,15 +33,15 @@ package="ie.wit.assignment1">
 
 
     <activity
-        android:name=".activities.MapActivity"
+        android:name=".views.editlocation.EditLocationView"
+        android:label="@string/title_activity_map"
         android:exported="true"
-        android:label="@string/title_activity_map" />
+         />
 
     <activity
-        android:name=".activities.HikeMapsActivity"
-        android:label="@string/title_activity_hike_maps"</activity>
+        android:name=".views.maps.HikeMapView"
+        android:label="@string/title_activity_hike_maps"/>
         //android:theme="@style/AppTheme">
-
 
     <activity
         android:name=".activities.HikeListActivity"
@@ -53,7 +53,7 @@ package="ie.wit.assignment1">
         </intent-filter>
     </activity>
 
-    <activity android:name=".activities.HikeActivity" />
+    <activity android:name=".views.hike.HikeView" />
 </application>
 
 </manifest>

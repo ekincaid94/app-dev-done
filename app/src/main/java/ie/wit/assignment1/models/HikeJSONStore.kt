@@ -60,10 +60,9 @@ val listType: Type = object : TypeToken<ArrayList<HikeModel>>() {}.type
             serialize()
         }
 
-        override fun delete(hike: HikeModel) {
-            hikes.remove(hike)
-            serialize()
-        }
+        override fun delete(placemark: HikeModel)
+        { val foundPlacemark: HikeModel? = hikes.find { it.id == placemark.id }
+           hikes.remove(foundPlacemark) serialize() }
 
 
         private fun serialize() {

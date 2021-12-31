@@ -27,6 +27,7 @@
     <string name="click_here">Click Here</string>
     <string name="sign_up">Sign Up</string>
     <string name="account_already_exists">This Email has been registered previously?</string>
+    <string name="menu_saveHike">Save</string>
 </resources>
 
 

@@ -1,4 +1,4 @@
-package ie.wit.assignment1.adapters
+package ie.wit.assignment1.views.hikelist
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -24,6 +24,18 @@ class HikeAdapter constructor(
             .inflate(LayoutInflater.from(parent.context), parent, false)
 
         return MainHolder(binding)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.menu_placemark, menu)
+        val deleteMenu: MenuItem = menu.findItem(R.id.item_delete)
+        if (presenter.edit){
+            deleteMenu.setVisible(true)
+        }
+        else{
+            deleteMenu.setVisible(false)
+        }
+        return super.onCreateOptionsMenu(menu)
     }
 
     override fun onBindViewHolder(holder: MainHolder, position: Int) {

@@ -38,7 +38,6 @@ import ie.wit.assignment1.R
     }
 
 
-
     fun configureMap() {
         map.setOnMarkerClickListener(this)
         map.uiSettings.setZoomControlsEnabled(true)
@@ -50,10 +49,14 @@ import ie.wit.assignment1.R
         }
     }
 
-    override fun onMarkerClick(marker: Marker): Boolean {
-        contentBinding.currentTitle.text = marker.title
-        return false
-    }
+     override fun onMarkerClick(marker: Marker): Boolean {
+         val tag = marker.tag as Long
+         val hike = app.hikes.findById(tag)
+         currentTitle.text = hike!!.title
+         currentDescription.text = hike!!.description
+         imageView.setImageBitmap(readImageFromPath(this@HikeMapsActivity, hike.image))
+         return true
+     }
 
     override fun onDestroy() {
         super.onDestroy()

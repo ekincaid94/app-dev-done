@@ -16,6 +16,7 @@ internal fun getId(): Long {
          return hikes
      }
 
+
      override fun create(hike: HikeModel) {
          hike.id = getId()
          hikes.add(hike)
@@ -34,6 +35,11 @@ internal fun getId(): Long {
              foundHike.zoom = hike.zoom
              logAll()
          }
+     }
+
+     override fun findById(id:Long) : HikeModel? {
+         val foundHike: HikeModel? = hikes.find { it.id == id }
+         return foundHike
      }
 
      override fun delete(hike: HikeModel) {
