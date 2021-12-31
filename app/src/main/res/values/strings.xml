@@ -28,6 +28,9 @@
     <string name="sign_up">Sign Up</string>
     <string name="account_already_exists">This Email has been registered previously?</string>
     <string name="menu_saveHike">Save</string>
+    <string name="title_activity_login"> Signup/Login to The HikeLife</string>
+    <string name="menu_showMap">Show Map</string>
+    <string name="menu_logout">Logout</string>
 </resources>
 
 

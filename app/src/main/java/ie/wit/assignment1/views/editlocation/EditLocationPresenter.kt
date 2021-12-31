@@ -21,7 +21,7 @@ class EditLocationPresenter (val view: EditLocationView) {
     fun initMap(map: GoogleMap) {
         val loc = LatLng(location.lat, location.lng)
         val options = MarkerOptions()
-            .title("Placemark")
+            .title("Hike")
             .snippet("GPS : $loc")
             .draggable(true)
             .position(loc)
@@ -31,10 +31,9 @@ class EditLocationPresenter (val view: EditLocationView) {
         map.setOnMarkerClickListener(view)
     }
 
-    fun doUpdateLocation(lat: Double, lng: Double, zoom: Float) {
+    fun doUpdateLocation(lat: Double, lng: Double) {
         location.lat = lat
         location.lng = lng
-        location.zoom = zoom
     }
 
     fun doOnBackPressed() {
@@ -47,5 +46,6 @@ class EditLocationPresenter (val view: EditLocationView) {
     fun doUpdateMarker(marker: Marker) {
         val loc = LatLng(location.lat, location.lng)
         marker.snippet = "GPS : $loc"
+
     }
 }

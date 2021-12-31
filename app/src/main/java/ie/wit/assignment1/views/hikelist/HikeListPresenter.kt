@@ -3,49 +3,62 @@ package ie.wit.assignment1.views.hikelist
 import android.content.Intent
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import ie.wit.assignment1.activities.HikeMapsActivity
+import ie.wit.assignment1.views.maps.HikeMapView
 import ie.wit.assignment1.main.MainApp
 import ie.wit.assignment1.models.HikeModel
 import ie.wit.assignment1.views.hike.HikeView
+import ie.wit.assignment1.views.login.LoginView
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
+class HikeListPresenter(val view: HikeListView) {
 
-class HikeListPresenter(val view: HikeListView ) {
-
-    var app: MainApp
+    var app: MainApp = view.application as MainApp
     private lateinit var refreshIntentLauncher : ActivityResultLauncher<Intent>
-    private lateinit var mapIntentLauncher : ActivityResultLauncher<Intent>
+    private lateinit var editIntentLauncher : ActivityResultLauncher<Intent>
 
     init {
-        app = view.application as MainApp
-        registerMapCallback()
+        registerEditCallback()
         registerRefreshCallback()
     }
 
-    fun getHikes() = app.hikes.findAll()
+    suspend fun getHikes() = app.hikes.findAll()
 
     fun doAddHike() {
         val launcherIntent = Intent(view, HikeView::class.java)
-        refreshIntentLauncher.launch(launcherIntent)
+        editIntentLauncher.launch(launcherIntent)
     }
 
     fun doEditHike(hike: HikeModel) {
         val launcherIntent = Intent(view, HikeView::class.java)
         launcherIntent.putExtra("hike_edit", hike)
-        mapIntentLauncher.launch(launcherIntent)
+        editIntentLauncher.launch(launcherIntent)
     }
 
     fun doShowHikesMap() {
-        val launcherIntent = Intent(view, HikeMapsActivity::class.java)
-        refreshIntentLauncher.launch(launcherIntent)
+        val launcherIntent = Intent(view, HikeMapView::class.java)
+        editIntentLauncher.launch(launcherIntent)
     }
+
+    fun doLogout(){
+        val launcherIntent = Intent(view, LoginView::class.java)
+        editIntentLauncher.launch(launcherIntent)
+    }
+
     private fun registerRefreshCallback() {
         refreshIntentLauncher =
             view.registerForActivityResult(ActivityResultContracts.StartActivityForResult())
-            { getHikes() }
+            {
+                GlobalScope.launch(Dispatchers.Main){
+                    getHikes()
+                }
+            }
     }
-    private fun registerMapCallback() {
-        mapIntentLauncher =
+    private fun registerEditCallback() {
+        editIntentLauncher =
             view.registerForActivityResult(ActivityResultContracts.StartActivityForResult())
             {  }
+
     }
 }

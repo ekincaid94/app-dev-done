@@ -23,12 +23,17 @@ import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import ie.wit.assignment1.helpers.checkLocationPermissions
 import android.annotation.SuppressLint
+import com.google.android.gms.location.LocationCallback
+import com.google.android.gms.location.LocationResult
+import ie.wit.assignment1.helpers.createDefaultLocationRequest
 import timber.log.Timber.i
 
 class HikePresenter(private val view: HikeView) {
+    private val locationRequest = createDefaultLocationRequest()
     var map: GoogleMap? = null
     var hike = HikeModel()
     var app: MainApp = view.application as MainApp
+    //location service
     var locationService: FusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(view)
     private lateinit var imageIntentLauncher : ActivityResultLauncher<Intent>
     private lateinit var mapIntentLauncher : ActivityResultLauncher<Intent>
@@ -52,14 +57,14 @@ class HikePresenter(private val view: HikeView) {
             if (checkLocationPermissions(view)) {
                 doSetCurrentLocation()
             }
-            hike.lat = location.lat
-            hike.lng = location.lng
+            hike.location.lat = location.lat
+            hike.location.lng = location.lng
         }
 
     }
 
 
-    fun doAddOrSave(title: String, description: String) {
+    suspend fun doAddOrSave(title: String, description: String) {
         hike.title = title
         hike.description = description
         if (edit) {
@@ -77,7 +82,7 @@ class HikePresenter(private val view: HikeView) {
 
     }
 
-    fun doDelete() {
+    suspend fun doDelete() {
         app.hikes.delete(hike)
         view.finish()
 
@@ -89,11 +94,12 @@ class HikePresenter(private val view: HikeView) {
 
     fun doSetLocation() {
 
-        if (hike.zoom != 0f) {
-            location.lat =  hike.lat
-            location.lng = hike.lng
-            location.zoom = hike.zoom
-            locationUpdate(hike.lat, hike.lng)
+        if (hike.location.zoom != 0f) {
+
+            location.lat =  hike.location.lat
+            location.lng = hike.location.lng
+            location.zoom = hike.location.zoom
+            locationUpdate(hike.location.lat, hike.location.lng)
         }
         val launcherIntent = Intent(view, EditLocationView::class.java)
             .putExtra("location", location)
@@ -102,34 +108,45 @@ class HikePresenter(private val view: HikeView) {
 
     @SuppressLint("MissingPermission")
     fun doSetCurrentLocation() {
-        i("setting location from doSetLocation")
+
         locationService.lastLocation.addOnSuccessListener {
             locationUpdate(it.latitude, it.longitude)
         }
+    }
+
+    @SuppressLint("MissingPermission")
+    fun doRestartLocationUpdates() {
+        var locationCallback = object : LocationCallback() {
+            override fun onLocationResult(locationResult: LocationResult?) {
+                if (locationResult != null && locationResult.locations != null) {
+                    val l = locationResult.locations.last()
+                    locationUpdate(l.latitude, l.longitude)
+                }
+            }
+        }
+        if (!edit) {
+            locationService.requestLocationUpdates(locationRequest, locationCallback, null)
+        }
+    }
+    fun doConfigureMap(m: GoogleMap) {
+        map = m
+        locationUpdate(hike.location.lat, hike.location.lng)
+    }
+
+    fun locationUpdate(lat: Double, lng: Double) {
+        hike.location = location
+        map?.clear()
+        map?.uiSettings?.setZoomControlsEnabled(true)
+        val options = MarkerOptions().title(hike.title).position(LatLng(hike.location.lat, hike.location.lng))
+        map?.addMarker(options)
+        map?.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(hike.location.lat, hike.location.lng), hike.location.zoom))
+        view.showHike(hike)
     }
 
     fun cacheHike (title: String, description: String) {
         hike.title = title;
         hike.description = description
     }
-    fun doConfigureMap(m: GoogleMap) {
-        map = m
-        locationUpdate(hike.lat, hike.lng)
-    }
-
-    fun locationUpdate(lat: Double, lng: Double) {
-        hike.lat = lat
-        hike.lng = lng
-        hike.zoom = 15f
-        map?.clear()
-        map?.uiSettings?.setZoomControlsEnabled(true)
-        val options = MarkerOptions().title(hike.title).position(LatLng(hike.lat, hike.lng))
-        map?.addMarker(options)
-        map?.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(hike.lat, hike.lng), hike.zoom))
-        view.showHike(hike)
-    }
-
-
 
     private fun registerImagePickerCallback() {
 
@@ -140,7 +157,7 @@ class HikePresenter(private val view: HikeView) {
                     AppCompatActivity.RESULT_OK -> {
                         if (result.data != null) {
                             Timber.i("Got Result ${result.data!!.data}")
-                            hike.image = result.data!!.data!!
+                            hike.image = result.data!!.data!!.toString()
                             view.updateImage(hike.image)
                         }
                     }
@@ -149,7 +166,6 @@ class HikePresenter(private val view: HikeView) {
 
             }
     }
-
     private fun registerMapCallback() {
         mapIntentLauncher =
             view.registerForActivityResult(ActivityResultContracts.StartActivityForResult())
@@ -160,9 +176,7 @@ class HikePresenter(private val view: HikeView) {
                             Timber.i("Got Location ${result.data.toString()}")
                             val location = result.data!!.extras?.getParcelable<Location>("location")!!
                             Timber.i("Location == $location")
-                            hike.lat = location.lat
-                            hike.lng = location.lng
-                            hike.zoom = location.zoom
+                            hike.location = location
                         } // end of if
                     }
                     AppCompatActivity.RESULT_CANCELED -> { } else -> { }
@@ -170,6 +184,7 @@ class HikePresenter(private val view: HikeView) {
 
             }
     }
+
     private fun doPermissionLauncher() {
         i("permission check called")
         requestPermissionLauncher =

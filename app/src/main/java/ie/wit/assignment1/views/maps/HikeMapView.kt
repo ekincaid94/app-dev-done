@@ -9,6 +9,9 @@ import ie.wit.assignment1.databinding.ActivityHikeMapsBinding
 import ie.wit.assignment1.databinding.ContentHikeMapsBinding
 import ie.wit.assignment1.main.MainApp
 import ie.wit.assignment1.models.HikeModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 
 class HikeMapView : AppCompatActivity() , GoogleMap.OnMarkerClickListener{
@@ -31,8 +34,16 @@ class HikeMapView : AppCompatActivity() , GoogleMap.OnMarkerClickListener{
 
         contentBinding.mapView.onCreate(savedInstanceState)
         contentBinding.mapView.getMapAsync{
-            presenter.doPopulateMap(it)
+            GlobalScope.launch(Dispatchers.Main) {
+                presenter.doPopulateMap(it)
+            }
         }
+    }
+    override fun onMarkerClick(marker: Marker): Boolean {
+        GlobalScope.launch(Dispatchers.Main) {
+            presenter.doMarkerSelected(marker)
+        }
+        return true
     }
     fun showHike(hike: HikeModel) {
         contentBinding.currentTitle.text = hike.title
@@ -40,11 +51,6 @@ class HikeMapView : AppCompatActivity() , GoogleMap.OnMarkerClickListener{
         Picasso.get()
             .load(hike.image)
             .into(contentBinding.imageView2)
-    }
-
-    override fun onMarkerClick(marker: Marker): Boolean {
-        presenter.doMarkerSelected(marker)
-        return true
     }
 
     override fun onDestroy() {

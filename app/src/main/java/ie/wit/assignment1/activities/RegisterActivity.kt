@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import ie.wit.assignment1.databinding.ActivityRegisterBinding
 import ie.wit.assignment1.main.MainApp
+import ie.wit.assignment1.views.hikelist.HikeListView
 
 class RegisterActivity : AppCompatActivity() {
 
@@ -45,7 +46,7 @@ class RegisterActivity : AppCompatActivity() {
                 mAuth.createUserWithEmailAndPassword(binding.etEmail.text.toString(), binding.etPassword.text.toString())
                     .addOnCompleteListener(this) {task ->
                         if (task.isSuccessful) {
-                            val intent = Intent(this@RegisterActivity, HikeListActivity::class.java)
+                            val intent = Intent(this@RegisterActivity, HikeListView::class.java)
                             startActivity(intent)
                             finish()
                         } else {

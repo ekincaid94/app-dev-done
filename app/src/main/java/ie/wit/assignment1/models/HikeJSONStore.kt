@@ -13,17 +13,18 @@ import java.util.*
 import kotlin.collections.ArrayList
 //import ie.wit.assignment1.models.helpers. unable to import?
 
+
 const val JSON_FILE = "hikes.json"
 val gsonBuilder: Gson = GsonBuilder().setPrettyPrinting()
     .registerTypeAdapter(Uri::class.java, UriParser())
     .create()
-val listType: Type = object : TypeToken<ArrayList<HikeModel>>() {}.type
+val listType: Type = object : TypeToken<java.util.ArrayList<HikeModel>>() {}.type
 
-    fun generateRandomId(): Long {
+fun generateRandomId(): Long {
     return Random().nextLong()
-    }
+}
 
-    class HikeJSONStore(private val context: Context) : HikeStore {
+class HikeJSONStore(private val context: Context) : HikeStore {
 
     var hikes = mutableListOf<HikeModel>()
 
@@ -45,29 +46,31 @@ val listType: Type = object : TypeToken<ArrayList<HikeModel>>() {}.type
     }
 
 
-        override fun update(hike: HikeModel) {
-            val hikesList = findAll() as ArrayList<HikeModel>
-            var foundHike: HikeModel? = hikesList.find { p -> p.id == hike.id }
-            if (foundHike != null) {
-                foundHike.title = hike.title
-              //  foundHike.location = hike.location
-                foundHike.description = hike.description
-                foundHike.image = hike.image
-                foundHike.lat = hike.lat
-                foundHike.lng = hike.lng
-                foundHike.zoom = hike.zoom
-            }
-            serialize()
+    suspend override fun update(hike: HikeModel) {
+        val hikesList = findAll() as ArrayList<HikeModel>
+        var foundHike: HikeModel? = hikesList.find { p -> p.id == hike.id }
+        if (foundHike != null) {
+            foundHike.title = hike.title
+            foundHike.description = hike.description
+            foundHike.image = hike.image
+            foundHike.location = hike.location
         }
+        serialize()
+    }
 
-        override fun delete(placemark: HikeModel)
-        { val foundPlacemark: HikeModel? = hikes.find { it.id == placemark.id }
-           hikes.remove(foundPlacemark) serialize() }
+    override fun delete(hike: HikeModel) {
+        val foundHike: HikeModel? = hikes.find { it.id == hike.id }
+        hikes.remove(foundHike)
+        serialize()
+    }
+    override fun findById(id:Long) : HikeModel? {
+        val foundHike: HikeModel? = hikes.find { it.id == id }
+        return foundHike
+    }
 
-
-        private fun serialize() {
+    private fun serialize() {
         val jsonString = gsonBuilder.toJson(hikes, listType)
-            write(context, JSON_FILE, jsonString)
+        write(context, JSON_FILE, jsonString)
     }
 
     private fun deserialize() {
@@ -89,6 +92,10 @@ class UriParser : JsonDeserializer<Uri>,JsonSerializer<Uri> {
         return Uri.parse(json?.asString)
     }
 
+    override suspend fun clear(){
+        hikes.clear()
+    }
+
     override fun serialize(
         src: Uri?,
         typeOfSrc: Type?,
@@ -96,5 +103,4 @@ class UriParser : JsonDeserializer<Uri>,JsonSerializer<Uri> {
     ): JsonElement {
         return JsonPrimitive(src.toString())
     }
-
 }

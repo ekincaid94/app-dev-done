@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-package="ie.wit.assignment1">
+    package="ie.wit.assignment1">
 
-<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
 <application
     android:name=".main.MainApp"
@@ -14,49 +14,37 @@ package="ie.wit.assignment1">
     android:supportsRtl="true"
     android:theme="@style/Theme.Assignment1">
 
-    <activity
-        android:name=".activities.LoginActivity"
-        android:exported="true" >
+    <activity android:name=".views.login.LoginView"
+        android:label="@string/title_activity_login"
+        android:launchMode="singleTop"
+        android:exported="true">
         <intent-filter>
             <action android:name="android.intent.action.MAIN" />
-
             <category android:name="android.intent.category.LAUNCHER" />
         </intent-filter>
     </activity>
+
     <activity
-        android:name=".activities.RegisterActivity"
-        android:exported="true" />
+        android:name=".views.maps.HikeMapView"
+        android:exported="true"
+        android:label="@string/title_activity_hike_maps"
+        android:theme="@style/Theme.Hike.NoActionBar" />
 
     <meta-data
         android:name="com.google.android.geo.API_KEY"
         android:value="@string/google_maps_key" />
 
-
     <activity
         android:name=".views.editlocation.EditLocationView"
-        android:label="@string/title_activity_map"
         android:exported="true"
-         />
-
+        android:label="@string/title_activity_map" />
     <activity
-        android:name=".views.maps.HikeMapView"
-        android:label="@string/title_activity_hike_maps"/>
-        //android:theme="@style/AppTheme">
-
-    <activity
-        android:name=".activities.HikeListActivity"
+        android:name=".views.hikelist.HikeListView"
         android:exported="true">
-        <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
-
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
     </activity>
-
     <activity android:name=".views.hike.HikeView" />
 </application>
 
 </manifest>
-
 
 

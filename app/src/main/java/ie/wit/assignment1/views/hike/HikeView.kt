@@ -12,7 +12,11 @@ import ie.wit.assignment1.R
 import ie.wit.assignment1.databinding.ActivityHikeBinding
 import ie.wit.assignment1.models.HikeModel
 import com.google.android.gms.maps.GoogleMap
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import timber.log.Timber.i
+
 
 class HikeView : AppCompatActivity() {
 
@@ -36,7 +40,7 @@ class HikeView : AppCompatActivity() {
             presenter.doSelectImage()
         }
 
-        binding.hikeLocation.setOnClickListener {
+        binding.mapView2.setOnClickListener {
             presenter.cacheHike(binding.hikeTitle.text.toString(), binding.description.text.toString())
             presenter.doSetLocation()
         }
@@ -45,6 +49,7 @@ class HikeView : AppCompatActivity() {
         binding.mapView2.getMapAsync {
             map = it
             presenter.doConfigureMap(map)
+            it.setOnMapClickListener { presenter.doSetLocation() }
         }
 
     }
@@ -68,11 +73,18 @@ class HikeView : AppCompatActivity() {
                     Snackbar.make(binding.root, R.string.enter_hike_title, Snackbar.LENGTH_LONG)
                         .show()
                 } else {
-                    presenter.doAddOrSave(binding.hikeTitle.text.toString(), binding.description.text.toString())
+                    GlobalScope.launch(Dispatchers.IO) {
+                        presenter.doAddOrSave(
+                            binding.hikeTitle.text.toString(),
+                            binding.description.text.toString()
+                        )
+                    }
                 }
             }
             R.id.item_delete -> {
-                presenter.doDelete()
+                GlobalScope.launch(Dispatchers.IO){
+                    presenter.doDelete()
+                }
             }
             R.id.item_cancel -> {
                 presenter.doCancel()
@@ -81,26 +93,33 @@ class HikeView : AppCompatActivity() {
         }
         return super.onOptionsItemSelected(item)
     }
-    fun showHike(hike: HikeModel) {
-        binding.hikeTitle.setText(hike.title)
-        binding.description.setText(hike.description)
 
-        Picasso.get()
-            .load(hike.image)
-            .into(binding.hikeImage)
-        if (hike.image != Uri.EMPTY) {
+    fun showHike(hike: HikeModel) {
+        if (binding.hikeTitle.text.isEmpty()) binding.hikeTitle.setText(hike.title)
+        if (binding.description.text.isEmpty())  binding.description.setText(hike.description)
+
+        if (hike.image != "") {
+            Picasso.get()
+                .load(hike.image)
+                .into(binding.hikeImage)
+
             binding.chooseImage.setText(R.string.change_hike_image)
         }
-
+        this.showLocation(hike.location)
+    }
+    private fun showLocation (loc: Location){
+        binding.lat.setText("%.6f".format(loc.lat))
+        binding.lng.setText("%.6f".format(loc.lng))
     }
 
-    fun updateImage(image: Uri){
+    fun updateImage(image: String){
         i("Image updated")
         Picasso.get()
             .load(image)
             .into(binding.hikeImage)
         binding.chooseImage.setText(R.string.change_hike_image)
     }
+
     override fun onDestroy() {
         super.onDestroy()
         binding.mapView2.onDestroy()
@@ -119,6 +138,7 @@ class HikeView : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         binding.mapView2.onResume()
+        presenter.doRestartLocationUpdates()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
