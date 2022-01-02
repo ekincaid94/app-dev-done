@@ -28,6 +28,7 @@ import com.google.android.gms.location.LocationResult
 import ie.wit.assignment1.helpers.createDefaultLocationRequest
 import timber.log.Timber.i
 
+
 class HikePresenter(private val view: HikeView) {
     private val locationRequest = createDefaultLocationRequest()
     var map: GoogleMap? = null

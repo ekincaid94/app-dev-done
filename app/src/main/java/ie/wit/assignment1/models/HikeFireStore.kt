@@ -1,14 +1,21 @@
 package ie.wit.assignment1.models
 
 import android.content.Context
+import android.graphics.Bitmap
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
+import ie.wit.assignment1.helpers.readImageFromPath
+import java.io.ByteArrayOutputStream
+import java.io.File
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
+import timber.log.Timber.i
 
 class HikeFireStore(val context: Context) : HikeStore {
     val hikes = ArrayList<HikeModel>()
     lateinit var userId: String
     lateinit var db: DatabaseReference
-
+    lateinit var st: StorageReference
     override suspend fun findAll(): List<HikeModel> {
         return hikes
     }
@@ -24,6 +31,7 @@ class HikeFireStore(val context: Context) : HikeStore {
             hike.fbId = key
             hikes.add(hike)
             db.child("users").child(userId).child("hikes").child(key).setValue(hike)
+            updateImage(hike)
         }
     }
 
@@ -37,7 +45,9 @@ class HikeFireStore(val context: Context) : HikeStore {
         }
 
         db.child("users").child(userId).child("hikes").child(hike.fbId).setValue(hike)
-
+        if(hike.image.length > 0){
+            updateImage(hike)
+        }
     }
 
     override suspend fun delete(hike: HikeModel) {
@@ -64,9 +74,38 @@ class HikeFireStore(val context: Context) : HikeStore {
             }
         }
         userId = FirebaseAuth.getInstance().currentUser!!.uid
+        st = FirebaseStorage.getInstance().reference
         db = FirebaseDatabase.getInstance("https://hike-e24c4-default-rtdb.europe-west1.firebasedatabase.app").reference
         hikes.clear()
         db.child("users").child(userId).child("hikes")
             .addListenerForSingleValueEvent(valueEventListener)
+    }
+    fun updateImage(hike: HikeModel){
+        if(hike.image != ""){
+            val fileName = File(hike.image)
+            val imageName = fileName.getName()
+
+            var imageRef = st.child(userId + '/' + imageName)
+            val baos = ByteArrayOutputStream()
+            val bitmap = readImageFromPath(context, hike.image)
+
+            bitmap?.let {
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 80, baos)
+
+                val data = baos.toByteArray()
+                val uploadTask = imageRef.putBytes(data)
+
+                uploadTask.addOnSuccessListener { taskSnapshot ->
+                    taskSnapshot.metadata!!.reference!!.downloadUrl.addOnSuccessListener {
+                        hike.image = it.toString()
+                        db.child("users").child(userId).child("hikes").child(hike.fbId).setValue(hike)
+                    }
+                }.addOnFailureListener{
+                    var errorMessage = it.message
+                    i("Failure: $errorMessage")
+                }
+            }
+
+        }
     }
 }

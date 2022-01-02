@@ -8,7 +8,7 @@ internal fun getId(): Long {
     return lastId++
 }
 
-  class HikeMemStore : HikeStore {
+class HikeMemStore : HikeStore {
 
     val hikes = ArrayList<HikeModel>()
 
@@ -22,17 +22,16 @@ internal fun getId(): Long {
         logAll()
     }
 
-    suspend override fun update(hike: HikeModel) {
-        var foundHike: HikeModel? = hikes.find { p -> p.id == hike.id }
+    override suspend fun update(hike: HikeModel) {
+        val foundHike: HikeModel? = hikes.find { p -> p.id == hike.id }
         if (foundHike != null) {
             foundHike.title = hike.title
             foundHike.description = hike.description
             foundHike.image = hike.image
             foundHike.location = hike.location
-            logAll();
+            logAll()
         }
     }
-
     override suspend fun delete(hike: HikeModel) {
         hikes.remove(hike)
         logAll()
@@ -41,13 +40,11 @@ internal fun getId(): Long {
     private fun logAll() {
         hikes.forEach { i("$it") }
     }
-      override suspend fun clear(){
-          hikes.clear()
-      }
-
-
-    override suspend fun findById(id: Long): HikeModel? {
+    override suspend fun findById(id:Long) : HikeModel? {
         val foundHike: HikeModel? = hikes.find { it.id == id }
         return foundHike
+    }
+    override suspend fun clear(){
+        hikes.clear()
     }
 }

@@ -34,20 +34,20 @@ class HikeJSONStore(private val context: Context) : HikeStore {
         }
     }
 
-    override fun findAll(): MutableList<HikeModel> {
+    override suspend fun findAll(): MutableList<HikeModel> {
         logAll()
         return hikes
     }
 
-    override fun create(hike: HikeModel) {
+    override suspend fun create(hike: HikeModel) {
         hike.id = generateRandomId()
         hikes.add(hike)
         serialize()
     }
 
 
-    suspend override fun update(hike: HikeModel) {
-        val hikesList = findAll() as ArrayList<HikeModel>
+    override suspend fun update(hike: HikeModel) {
+        val hikesList = findAll() as java.util.ArrayList<HikeModel>
         var foundHike: HikeModel? = hikesList.find { p -> p.id == hike.id }
         if (foundHike != null) {
             foundHike.title = hike.title
@@ -58,12 +58,12 @@ class HikeJSONStore(private val context: Context) : HikeStore {
         serialize()
     }
 
-    override fun delete(hike: HikeModel) {
+    override suspend fun delete(hike: HikeModel) {
         val foundHike: HikeModel? = hikes.find { it.id == hike.id }
         hikes.remove(foundHike)
         serialize()
     }
-    override fun findById(id:Long) : HikeModel? {
+    override suspend fun findById(id:Long) : HikeModel? {
         val foundHike: HikeModel? = hikes.find { it.id == id }
         return foundHike
     }
@@ -81,6 +81,9 @@ class HikeJSONStore(private val context: Context) : HikeStore {
     private fun logAll() {
         hikes.forEach { Timber.i("$it") }
     }
+    override suspend fun clear(){
+        hikes.clear()
+    }
 }
 
 class UriParser : JsonDeserializer<Uri>,JsonSerializer<Uri> {
@@ -90,10 +93,6 @@ class UriParser : JsonDeserializer<Uri>,JsonSerializer<Uri> {
         context: JsonDeserializationContext?
     ): Uri {
         return Uri.parse(json?.asString)
-    }
-
-    override suspend fun clear(){
-        hikes.clear()
     }
 
     override fun serialize(

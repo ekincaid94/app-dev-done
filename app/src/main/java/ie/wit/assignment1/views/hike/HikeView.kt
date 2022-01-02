@@ -11,6 +11,7 @@ import com.squareup.picasso.Picasso
 import ie.wit.assignment1.R
 import ie.wit.assignment1.databinding.ActivityHikeBinding
 import ie.wit.assignment1.models.HikeModel
+import ie.wit.assignment1.models.Location
 import com.google.android.gms.maps.GoogleMap
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope

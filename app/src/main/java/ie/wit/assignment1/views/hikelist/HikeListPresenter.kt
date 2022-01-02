@@ -3,6 +3,7 @@ package ie.wit.assignment1.views.hikelist
 import android.content.Intent
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import com.google.firebase.auth.FirebaseAuth
 import ie.wit.assignment1.views.maps.HikeMapView
 import ie.wit.assignment1.main.MainApp
 import ie.wit.assignment1.models.HikeModel
@@ -12,7 +13,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
-class HikeListPresenter(val view: HikeListView) {
+class HikeListPresenter(private val view: HikeListView) {
 
     var app: MainApp = view.application as MainApp
     private lateinit var refreshIntentLauncher : ActivityResultLauncher<Intent>
@@ -41,7 +42,9 @@ class HikeListPresenter(val view: HikeListView) {
         editIntentLauncher.launch(launcherIntent)
     }
 
-    fun doLogout(){
+    suspend fun doLogout(){
+        FirebaseAuth.getInstance().signOut()
+        app.hikes.clear()
         val launcherIntent = Intent(view, LoginView::class.java)
         editIntentLauncher.launch(launcherIntent)
     }

@@ -17,6 +17,8 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
+
+
 class HikeListView : AppCompatActivity(), HikeListener {
 
     lateinit var app: MainApp
@@ -25,19 +27,23 @@ class HikeListView : AppCompatActivity(), HikeListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
-        override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = ActivityHikeListBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-            super.onCreate(savedInstanceState)
-            binding = ActivityHikeListBinding.inflate(layoutInflater)
-            setContentView(binding.root)
+        //update Toolbar title
+        binding.toolbar.title = title
+        val user = FirebaseAuth.getInstance().currentUser
+        if (user != null) {
+            binding.toolbar.title = "${title}: ${user.email}"
+        }
+        setSupportActionBar(binding.toolbar)
 
-            //update Toolbar title
-            binding.toolbar.title = title
-            val user = FirebaseAuth.getInstance().currentUser
-            if (user != null) {
-                binding.toolbar.title = "${title}: ${user.email}"
-            }
-
+        presenter = HikeListPresenter(this)
+        val layoutManager = LinearLayoutManager(this)
+        binding.recyclerView.layoutManager = layoutManager
+        updateRecyclerView()
+    }
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_main, menu)
         return super.onCreateOptionsMenu(menu)
@@ -58,7 +64,11 @@ class HikeListView : AppCompatActivity(), HikeListener {
         when (item.itemId) {
             R.id.item_add -> { presenter.doAddHike() }
             R.id.item_map -> { presenter.doShowHikesMap() }
-            R.id.item_logout -> { presenter.doLogout() }
+            R.id.item_logout -> {
+                GlobalScope.launch(Dispatchers.IO) {
+                    presenter.doLogout()
+                }
+            }
         }
         return super.onOptionsItemSelected(item)
     }
