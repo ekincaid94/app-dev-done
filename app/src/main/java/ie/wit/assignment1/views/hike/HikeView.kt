@@ -41,13 +41,13 @@ class HikeView : AppCompatActivity() {
             presenter.doSelectImage()
         }
 
-        binding.mapView2.setOnClickListener {
+        binding.mapView.setOnClickListener {
             presenter.cacheHike(binding.hikeTitle.text.toString(), binding.description.text.toString())
             presenter.doSetLocation()
         }
 
-        binding.mapView2.onCreate(savedInstanceState);
-        binding.mapView2.getMapAsync {
+        binding.mapView.onCreate(savedInstanceState);
+        binding.mapView.getMapAsync {
             map = it
             presenter.doConfigureMap(map)
             it.setOnMapClickListener { presenter.doSetLocation() }
@@ -123,28 +123,28 @@ class HikeView : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        binding.mapView2.onDestroy()
+        binding.mapView.onDestroy()
     }
 
     override fun onLowMemory() {
         super.onLowMemory()
-        binding.mapView2.onLowMemory()
+        binding.mapView.onLowMemory()
     }
 
     override fun onPause() {
         super.onPause()
-        binding.mapView2.onPause()
+        binding.mapView.onPause()
     }
 
     override fun onResume() {
         super.onResume()
-        binding.mapView2.onResume()
+        binding.mapView.onResume()
         presenter.doRestartLocationUpdates()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        binding.mapView2.onSaveInstanceState(outState)
+        binding.mapView.onSaveInstanceState(outState)
     }
 
 }

@@ -73,10 +73,10 @@
                     app:layout_constraintEnd_toStartOf="@+id/lat"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/placemarkTitle" />
+                    app:layout_constraintTop_toBottomOf="@+id/hikeTitle" />
 
                 <EditText
-                    android:id="@+id/placemarkTitle"
+                    android:id="@+id/hikeTitle"
                     android:layout_width="248dp"
                     android:layout_height="57dp"
                     android:layout_marginStart="8dp"
@@ -118,7 +118,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/lat" />
 
                 <ImageView
-                    android:id="@+id/placemarkImage"
+                    android:id="@+id/hikeImage"
                     android:layout_width="401dp"
                     android:layout_height="178dp"
                     android:layout_marginStart="4dp"

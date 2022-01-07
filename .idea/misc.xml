@@ -8,12 +8,12 @@
         <entry key="app/src/main/res/layout/activity_hike.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_hike_list.xml" value="0.10925925925925926" />
         <entry key="app/src/main/res/layout/activity_hike_maps.xml" value="0.10925925925925926" />
-        <entry key="app/src/main/res/layout/activity_login.xml" value="0.22" />
+        <entry key="app/src/main/res/layout/activity_login.xml" value="0.165" />
         <entry key="app/src/main/res/layout/activity_map.xml" value="0.10925925925925926" />
-        <entry key="app/src/main/res/layout/activity_register.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_register.xml" value="0.335" />
         <entry key="app/src/main/res/layout/activity_splash_screen.xml" value="0.13125" />
         <entry key="app/src/main/res/layout/card_hike.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/content_hike_maps.xml" value="0.10925925925925926" />
+        <entry key="app/src/main/res/layout/content_hike_maps.xml" value="0.125" />
         <entry key="app/src/main/res/menu/menu_edit_location.xml" value="0.10989583333333333" />
         <entry key="app/src/main/res/menu/menu_hike.xml" value="0.1455290421563716" />
         <entry key="app/src/main/res/menu/menu_main.xml" value="0.10925925925925926" />

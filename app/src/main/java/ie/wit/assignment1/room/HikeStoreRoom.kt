@@ -16,29 +16,26 @@ class HikeStoreRoom(val context: Context) : HikeStore {
         dao = database.hikeDao()
     }
 
-    override fun findAll(): List<HikeModel> {
+    override suspend fun findAll(): List<HikeModel> {
+
         return dao.findAll()
     }
 
-    override fun findById(id: Long): HikeModel? {
+    override suspend fun findById(id: Long): HikeModel? {
         return dao.findById(id)
     }
 
-    override fun create(hike: HikeModel) {
+    override suspend fun create(hike: HikeModel) {
         dao.create(hike)
     }
 
-    override fun update(hike: HikeModel) {
+    override suspend fun update(hike: HikeModel) {
         dao.update(hike)
     }
 
-    override fun delete(hike: HikeModel) {
+    override suspend fun delete(hike: HikeModel) {
         dao.deleteHike(hike)
     }
-
-    override suspend fun clear(){
-    }
-
-    fun clear() {
+    override suspend fun clear() {
     }
 }

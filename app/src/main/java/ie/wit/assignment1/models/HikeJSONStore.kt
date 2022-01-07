@@ -14,6 +14,7 @@ import kotlin.collections.ArrayList
 //import ie.wit.assignment1.models.helpers. unable to import?
 
 
+
 const val JSON_FILE = "hikes.json"
 val gsonBuilder: Gson = GsonBuilder().setPrettyPrinting()
     .registerTypeAdapter(Uri::class.java, UriParser())

@@ -1,15 +1,16 @@
 package ie.wit.assignment1.models
 
+
 import android.content.Context
 import android.graphics.Bitmap
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
-import ie.wit.assignment1.helpers.readImageFromPath
-import java.io.ByteArrayOutputStream
-import java.io.File
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
+import ie.wit.assignment1.helpers.readImageFromPath
 import timber.log.Timber.i
+import java.io.ByteArrayOutputStream
+import java.io.File
 
 class HikeFireStore(val context: Context) : HikeStore {
     val hikes = ArrayList<HikeModel>()

@@ -1,11 +1,11 @@
 package ie.wit.assignment1.views.login
 
+import ie.wit.assignment1.models.HikeFireStore
 import android.content.Intent
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import com.google.firebase.auth.FirebaseAuth
 import ie.wit.assignment1.main.MainApp
-import ie.wit.assignment1.models.HikeFireStore
 import ie.wit.assignment1.views.hikelist.HikeListView
 
 

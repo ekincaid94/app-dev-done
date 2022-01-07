@@ -39,7 +39,7 @@ android:layout_height="match_parent"
         android:layout_height="match_parent">
 
         <ImageView
-            android:id="@+id/currentImage"
+            android:id="@+id/imageView2"
             android:layout_width="121dp"
             android:layout_height="98dp"
             android:layout_marginEnd="16dp"
@@ -55,7 +55,7 @@ android:layout_height="match_parent"
             android:layout_height="21dp"
             android:text="@string/hike_title_placeholder"
             app:layout_constraintBottom_toTopOf="@+id/currentDescription"
-            app:layout_constraintEnd_toStartOf="@+id/currentImage"
+            app:layout_constraintEnd_toStartOf="@+id/imageView2"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.722" />
@@ -67,7 +67,7 @@ android:layout_height="match_parent"
             android:layout_marginBottom="24dp"
             android:text="@string/hike_description_placeholder"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/currentImage"
+            app:layout_constraintEnd_toStartOf="@+id/imageView2"
             app:layout_constraintHorizontal_bias="0.521"
             app:layout_constraintStart_toStartOf="parent" />
 
