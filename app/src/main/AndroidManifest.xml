@@ -16,7 +16,9 @@
             android:name=".views.maps.HikeMapView"
             android:exported="true"
             android:label="@string/title_activity_hike_maps"
-            android:theme="@style/Theme.Hike.NoActionBar" />
+            android:theme="@style/Theme.Hike.NoActionBar"/>
+
+
         <activity
             android:name=".activities.SplashScreen"
             android:exported="true"
@@ -43,8 +45,9 @@
             android:label="@string/title_activity_map" />
         <activity
             android:name=".views.hikelist.HikeListView"
-            android:exported="true" />
-        <activity android:name=".views.hike.HikeView" />
+            android:exported="true"/>
+
+        <activity android:name=".views.hike.HikeView"/>
     </application>
 
 </manifest>

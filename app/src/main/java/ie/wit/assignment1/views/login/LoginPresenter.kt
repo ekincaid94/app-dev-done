@@ -22,12 +22,11 @@ class LoginPresenter (val view: LoginView)  {
         }
     }
 
-
     fun doLogin(email: String, password: String) {
         view.showProgress()
         auth.signInWithEmailAndPassword(email, password).addOnCompleteListener(view) { task ->
             if (task.isSuccessful) {
-                if (fireStore != null) {
+                if (fireStore != null){
                     fireStore!!.fetchHikes {
                         view?.hideProgress()
                         val launcherIntent = Intent(view, HikeListView::class.java)
@@ -49,7 +48,7 @@ class LoginPresenter (val view: LoginView)  {
 
     fun doSignUp(email: String, password: String) {
         view.showProgress()
-        auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(view) { task ->
+        auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(view!!) { task ->
             if (task.isSuccessful) {
                 fireStore!!.fetchHikes {
                     view?.hideProgress()
@@ -62,10 +61,10 @@ class LoginPresenter (val view: LoginView)  {
             view.hideProgress()
         }
     }
-    
     private fun registerLoginCallback(){
         loginIntentLauncher =
             view.registerForActivityResult(ActivityResultContracts.StartActivityForResult())
             {  }
     }
+
 }
